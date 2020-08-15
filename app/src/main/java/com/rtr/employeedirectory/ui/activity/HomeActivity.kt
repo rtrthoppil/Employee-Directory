@@ -1,5 +1,6 @@
 package com.rtr.employeedirectory.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
@@ -10,6 +11,8 @@ import com.rtr.employeedirectory.base.BaseActivity
 import com.rtr.employeedirectory.databinding.ActivityHomeBinding
 import com.rtr.employeedirectory.model.EmployeeCardModel
 import com.rtr.employeedirectory.ui.adapter.EmployeeRecyclerViewAdapter
+import com.rtr.employeedirectory.utils.AppConstUtils.INTENT_KEY_MODEL
+import com.rtr.employeedirectory.utils.EmpListener
 import com.rtr.employeedirectory.viewmodel.HomeScreenViewModel
 
 /**
@@ -20,7 +23,7 @@ import com.rtr.employeedirectory.viewmodel.HomeScreenViewModel
 /**
  * Activity class for Home screen
  */
-class HomeActivity : BaseActivity() {
+class HomeActivity : BaseActivity(), EmpListener {
 
     private lateinit var viewModel: HomeScreenViewModel
     private lateinit var binding: ActivityHomeBinding
@@ -55,7 +58,7 @@ class HomeActivity : BaseActivity() {
         binding.recyclerViewEmployee.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this.context)
-            adapter = EmployeeRecyclerViewAdapter(list)
+            adapter = EmployeeRecyclerViewAdapter(list, this@HomeActivity)
         }
     }
 
@@ -70,5 +73,11 @@ class HomeActivity : BaseActivity() {
             viewModel.searchData(newText)
             return true
         }
+    }
+
+    override fun onClickEmpData(model : EmployeeCardModel) {
+        val intent = Intent(this, EmpDetailsActivity::class.java)
+        intent.putExtra(INTENT_KEY_MODEL, model)
+        startActivity(intent)
     }
 }

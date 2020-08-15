@@ -1,7 +1,10 @@
 package com.rtr.employeedirectory.model
 
+import android.os.Parcelable
 import android.view.View
 import androidx.databinding.ObservableField
+import com.rtr.employeedirectory.utils.EmpListener
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Created by RAHUL T R
@@ -11,6 +14,7 @@ import androidx.databinding.ObservableField
 /**
  * Data class for employee data
  */
+@Parcelize
 data class EmployeeCardModel(
     var empId : ObservableField<String> = ObservableField(""),
     var empUserName : ObservableField<String> = ObservableField(""),
@@ -21,8 +25,11 @@ data class EmployeeCardModel(
     var empAddress : ObservableField<String> = ObservableField(""),
     var empImageUrl : ObservableField<String> = ObservableField(""),
     var empWebSite : ObservableField<String> = ObservableField("")
-){
-    fun onClickEmployeeCard(view : View){
+) : Parcelable {
 
+    var listener : EmpListener? = null
+
+    fun onClickEmployeeCard(view : View){
+        listener?.onClickEmpData(this)
     }
 }

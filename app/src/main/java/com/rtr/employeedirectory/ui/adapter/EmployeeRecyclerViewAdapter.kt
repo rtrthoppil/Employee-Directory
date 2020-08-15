@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rtr.employeedirectory.databinding.LayoutEmployeeBinding
 import com.rtr.employeedirectory.model.EmployeeCardModel
+import com.rtr.employeedirectory.utils.EmpListener
 
 /**
  * Created by RAHUL T R
@@ -14,9 +15,9 @@ import com.rtr.employeedirectory.model.EmployeeCardModel
 /**
  * Recycler view adapter class for listing employees
  */
-class EmployeeRecyclerViewAdapter(var employeeList : MutableList<EmployeeCardModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class EmployeeRecyclerViewAdapter(var employeeList : MutableList<EmployeeCardModel>, var listener : EmpListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return CartViewHolder(LayoutEmployeeBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return CartViewHolder(LayoutEmployeeBinding.inflate(LayoutInflater.from(parent.context), parent, false), listener)
     }
 
     override fun getItemCount(): Int = employeeList.size
@@ -36,9 +37,10 @@ class EmployeeRecyclerViewAdapter(var employeeList : MutableList<EmployeeCardMod
     /**
      * View holder class for employee listing
      */
-    inner class CartViewHolder(var binding: LayoutEmployeeBinding) :
+    inner class CartViewHolder(var binding: LayoutEmployeeBinding,  var listener : EmpListener) :
         RecyclerView.ViewHolder(binding.root) {
         fun setModel(item: EmployeeCardModel) {
+            item.listener = listener
             binding.model = item
         }
     }

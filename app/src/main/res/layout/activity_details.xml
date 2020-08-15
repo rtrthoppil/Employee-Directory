@@ -1,9 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-<data></data>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.rtr.employeedirectory.model.EmployeeCardModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageViewEmployee"
+            loadImage="@{ model.empImageUrl }"
+            android:layout_width="@dimen/dimen_250_dp"
+            android:layout_height="@dimen/dimen_250_dp"
+            android:layout_marginTop="@dimen/dimen_30_dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewName"
+            android:layout_width="@dimen/dimen_0_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_15_dp"
+            android:text="@{model.empName}"
+            android:textSize="@dimen/font_size_14_sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewEmployee" />
+
+        <TextView
+            android:id="@+id/textViewCompanyName"
+            android:layout_width="@dimen/dimen_0_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_10_dp"
+            android:text="@{model.empCompany}"
+            android:textSize="@dimen/font_size_14_sp"
+            app:layout_constraintEnd_toEndOf="@+id/textViewName"
+            app:layout_constraintStart_toStartOf="@+id/textViewName"
+            app:layout_constraintTop_toBottomOf="@+id/textViewName" />
+
+        <TextView
+            android:id="@+id/textViewEmail"
+            android:layout_width="@dimen/dimen_0_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_10_dp"
+            android:text="@{model.empEmail}"
+            android:textSize="@dimen/font_size_14_sp"
+            app:layout_constraintEnd_toEndOf="@+id/textViewName"
+            app:layout_constraintStart_toStartOf="@+id/textViewCompanyName"
+            app:layout_constraintTop_toBottomOf="@+id/textViewCompanyName" />
+
+        <TextView
+            android:id="@+id/textViewMobile"
+            android:layout_width="@dimen/dimen_0_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_10_dp"
+            android:text="@{model.empMobile}"
+            android:textSize="@dimen/font_size_14_sp"
+            app:layout_constraintEnd_toEndOf="@+id/textViewName"
+            app:layout_constraintStart_toStartOf="@+id/textViewEmail"
+            app:layout_constraintTop_toBottomOf="@+id/textViewEmail" />
+
+        <TextView
+            android:id="@+id/textViewAddress"
+            android:layout_width="@dimen/dimen_0_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_10_dp"
+            android:text="@{model.empAddress}"
+            android:textSize="@dimen/font_size_14_sp"
+            app:layout_constraintEnd_toEndOf="@+id/textViewName"
+            app:layout_constraintStart_toStartOf="@+id/textViewEmail"
+            app:layout_constraintTop_toBottomOf="@+id/textViewMobile" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

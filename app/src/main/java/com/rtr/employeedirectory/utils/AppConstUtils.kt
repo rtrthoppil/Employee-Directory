@@ -18,4 +18,6 @@ object AppConstUtils {
 
     const val BASE_URL = "https://www.mocky.io/"
 
+    const val INTENT_KEY_MODEL = "model"
+
 }
