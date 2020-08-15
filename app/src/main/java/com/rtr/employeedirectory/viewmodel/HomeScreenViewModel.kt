@@ -81,7 +81,8 @@ class HomeScreenViewModel(app : Application) : BaseViewModel(app) {
      */
     fun searchData(hint : String?) {
         hint?.let { hint ->
-            employeeList.value = employeeListFull?.filter { (it.empName.get() ?: "").toLowerCase().contains(hint.toLowerCase())  } as MutableList<EmployeeCardModel>?
+            employeeList.value = employeeListFull?.filter { (it.empName.get() ?: "").toLowerCase().contains(hint.toLowerCase()) ||
+                    (it.empEmail.get() ?: "").toLowerCase().contains(hint.toLowerCase()) } as MutableList<EmployeeCardModel>?
         }
     }
 
