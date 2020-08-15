@@ -32,6 +32,11 @@ open class BaseViewModel(var appContext: Application) : AndroidViewModel(appCont
         showHeader.set(status)
     }
 
+    fun addHeaderData(data : HeaderModel?){
+        data?.let { headerModel.set(it) }
+        displayHeader(true)
+    }
+
     /**
      * Method to show content view
      * @param status : Boolean value for show and hide
