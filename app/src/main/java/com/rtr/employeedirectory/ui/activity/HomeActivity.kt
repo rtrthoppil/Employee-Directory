@@ -1,6 +1,7 @@
 package com.rtr.employeedirectory.ui.activity
 
 import android.os.Bundle
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,6 +45,7 @@ class HomeActivity : BaseActivity() {
                 setAdapterForEmployeeListing(it)
             }else viewModel.isDataEmpty.set(true)
         })
+        binding.searchViewEmployee.setOnQueryTextListener(searchListener)
     }
 
     /**
@@ -54,6 +56,19 @@ class HomeActivity : BaseActivity() {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this.context)
             adapter = EmployeeRecyclerViewAdapter(list)
+        }
+    }
+
+    /**
+     * Listener for search
+     */
+    private val searchListener = object : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            return false
+        }
+        override fun onQueryTextChange(newText: String?): Boolean {
+            viewModel.searchData(newText)
+            return true
         }
     }
 }

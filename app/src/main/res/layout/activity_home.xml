@@ -13,12 +13,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/offWhite">
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchViewEmployee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/offWhite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,6 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_0_dp"
             android:layout_marginTop="@dimen/dimen_30_dp"
+            android:background="@color/offWhite"
             android:clipToPadding="false"
             android:paddingBottom="@dimen/dimen_100_dp"
             android:visibility="@{ viewModel.isDataEmpty ? View.GONE : View.VISIBLE }"

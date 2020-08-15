@@ -29,6 +29,7 @@ import retrofit2.Response
 class HomeScreenViewModel(app : Application) : BaseViewModel(app) {
 
     var employeeList : MutableLiveData<MutableList<EmployeeCardModel>> = MutableLiveData()
+    var employeeListFull : MutableList<EmployeeCardModel>? = mutableListOf()
     var isDataEmpty : ObservableBoolean = ObservableBoolean(true)
 
     fun setUpHeaderForHome(){
@@ -65,6 +66,7 @@ class HomeScreenViewModel(app : Application) : BaseViewModel(app) {
         if(response.body() is MutableList<Employee>){
             val responseData = response.body() as MutableList<Employee>
             employeeList.value = EmployeeDataSource().getArrangedData(responseData)
+            employeeListFull = employeeList.value
         }else employeeList.value = null
         showContentView(true)
     }
@@ -72,6 +74,15 @@ class HomeScreenViewModel(app : Application) : BaseViewModel(app) {
     override fun onClickRetryButton(view: View) {
         super.onClickRetryButton(view)
         getEmployeeList()
+    }
+
+    /**
+     * Method to search filter
+     */
+    fun searchData(hint : String?) {
+        hint?.let { hint ->
+            employeeList.value = employeeListFull?.filter { (it.empName.get() ?: "").toLowerCase().contains(hint.toLowerCase())  } as MutableList<EmployeeCardModel>?
+        }
     }
 
 }
