@@ -5,8 +5,17 @@ import android.view.View
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
+import com.rtr.employeedirectory.R
 import com.rtr.employeedirectory.model.HeaderModel
 import com.rtr.employeedirectory.model.RefreshModel
+import com.rtr.employeedirectory.utils.AppConstUtils
+import com.rtr.employeedirectory.utils.NetworkUtils
+import java.io.IOException
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
+import javax.net.ssl.SSLException
+import javax.net.ssl.SSLHandshakeException
+import javax.net.ssl.SSLPeerUnverifiedException
 
 /**
  * Created by RAHUL T R
@@ -25,6 +34,10 @@ open class BaseViewModel(var appContext: Application) : AndroidViewModel(appCont
     var refreshModel: ObservableField<RefreshModel> = ObservableField()
     var headerModel: ObservableField<HeaderModel> = ObservableField()
 
+    init {
+        refreshModel.set(getDefaultErrorMessageDetails())
+    }
+
     /**
      * Method to display header
      */
@@ -32,6 +45,9 @@ open class BaseViewModel(var appContext: Application) : AndroidViewModel(appCont
         showHeader.set(status)
     }
 
+    /**
+     * Method to add header data
+     */
     fun addHeaderData(data : HeaderModel?){
         data?.let { headerModel.set(it) }
         displayHeader(true)
@@ -61,7 +77,11 @@ open class BaseViewModel(var appContext: Application) : AndroidViewModel(appCont
     /**
      * Method to get default error message details
      */
-    private fun getDefaultErrorMessageDetails(): RefreshModel = RefreshModel()
+    private fun getDefaultErrorMessageDetails(): RefreshModel = RefreshModel(
+        ObservableField(appContext.getString(R.string.error_title)),
+        ObservableField(appContext.getString(R.string.error_message)),
+        ObservableField(appContext.getString(R.string.retry))
+    )
 
     /**
      * Method to show progress view
@@ -81,4 +101,36 @@ open class BaseViewModel(var appContext: Application) : AndroidViewModel(appCont
      * Click listener for header left icon
      */
     open fun onClickHeaderLeftIcon(view: View) { /*  Do not delete this method */ }
+
+    /**
+     * Method to check internet connectivity
+     */
+    fun checkInternetConnectivity(): Boolean {
+        if (NetworkUtils.isInternetAvailable(appContext)) return true
+        showErrorMessageView(true)
+        return false
+    }
+
+    /**
+     * Method to check API success response
+     */
+    fun checkApiResponse(responseCode: Int): Any? {
+        when (responseCode) {
+            in 200..299 -> return null
+            in 500..599 -> return getDefaultErrorMessageDetails() // Server error
+            401 -> return getDefaultErrorMessageDetails() //doLogout()
+            else -> return getDefaultErrorMessageDetails() // REFRESH_ITEM_TYPE_UNKNOWN_ERROR
+        }
+    }
+
+    /**
+     * Method to check API failure response
+     */
+    /*fun checkApiFailure(exception: Throwable): RefreshItem = when (exception) {
+        is SocketTimeoutException -> getRefreshItem(AppConstUtils.REFRESH_ITEM_TYPE_TIME_OUT)
+        is IOException -> getRefreshItem(AppConstUtils.REFRESH_ITEM_TYPE_NO_INTERNET)
+        is UnknownHostException, is SSLPeerUnverifiedException, is SSLHandshakeException, is SSLException ->
+            getRefreshItem(AppConstUtils.REFRESH_ITEM_TYPE_NO_INTERNET)
+        else -> getDefaultErrorMessageDetails()
+    }*/
 }
